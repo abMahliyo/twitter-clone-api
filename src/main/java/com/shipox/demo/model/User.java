@@ -7,7 +7,13 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import java.time.Instant;
 
 @Entity
 @NoArgsConstructor
@@ -15,25 +21,20 @@ import javax.persistence.Id;
 @Data
 public class User {
 
-    @NotNull
     @Id
-    private int userId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long userId;
 
-    @JsonIgnore
-    @NotNull
+    @NotBlank(message = "Username is required")
+    private String username;
+
+    @NotBlank(message = "Password is required")
     private String password;
 
-    @NotNull
-    private String name;
-
-    @NotNull
+    @Email
+    @NotEmpty(message = "Email is required")
     private String email;
 
-    @NotNull
-    private Role role;
-
-
-    public String getName() {
-        return name;
-    }
+    private Instant created;
+    private boolean enabled;
 }

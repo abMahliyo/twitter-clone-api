@@ -1,39 +1,32 @@
 package com.shipox.demo.model;
 
-import com.sun.istack.NotNull;
 import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
-import java.beans.ConstructorProperties;
-import java.sql.Timestamp;
-import java.util.Set;
+import javax.validation.constraints.NotEmpty;
+import java.time.Instant;;
+
+import static javax.persistence.FetchType.LAZY;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@RequiredArgsConstructor
 public class Tweet {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
-    @NotNull
+    @NotEmpty
     private String content;
 
-    @ManyToOne
-    private User tweetUser;
+    private Instant createdDate;
 
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "userId", referencedColumnName = "userId")
+    private User user;
 
-    public Tweet(String tweetUser, String content) {
-
-    }
-
-    public Tweet() {
-
-    }
 
 }
